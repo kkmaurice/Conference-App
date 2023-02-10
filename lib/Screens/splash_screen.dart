@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:conference/helpers/style.dart';
 import 'package:flutter/material.dart';
+
+import '../Auth/auth_screen.dart';
 
 
 
@@ -14,31 +17,32 @@ class SplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<SplashScreen> {
 
-  // splashScreenTimer() {
-  //   return Timer(const Duration(seconds: 4), () {
-  //     // 4 seconds later, after the splash screen, user will be redirected to home screen
-  //     if(FirebaseAuth.instance.currentUser != null)
-  //     {
-  //       Navigator.push(context, MaterialPageRoute(builder: (context) =>  HomeScreen()));
-  //     }
-  //     else // user is not logged in
-  //     {
-  //       Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
-  //     }
-  //   });
-  // }
+  splashScreenTimer() {
+    return Timer(const Duration(seconds: 4), () {
+      // 4 seconds later, after the splash screen, user will be redirected to home screen
+       Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
+      // if(FirebaseAuth.instance.currentUser != null)
+      // {
+      //   Navigator.push(context, MaterialPageRoute(builder: (context) =>  HomeScreen()));
+      // }
+      // else // user is not logged in
+      // {
+      //   Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
+      // }
+    });
+  }
 
   @override
   void initState() //called automatically when user comes here to this screen
   {
-    //splashScreenTimer();
+    splashScreenTimer();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: cardColor,
       body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

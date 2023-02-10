@@ -1,7 +1,16 @@
+
+import 'package:conference/Screens/home_screen.dart';
 import 'package:conference/Screens/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+);
   runApp(const MyApp());
 }
 
@@ -18,6 +27,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: const SplashScreen(),
+      routes: {
+        HomeScreen.routName: (context) => const HomeScreen(),
+        //SplashScreen.routName: (context) => const SplashScreen(),
+      },
     );
   }
 }
