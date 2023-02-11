@@ -46,6 +46,7 @@ dependencies:
   uuid: ^3.0.7
   fluttertoast: ^8.1.2
   firebase_auth: ^4.2.6
+  iconly: ^1.0.1
   
 
 dev_dependencies:

@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Services/auth_services.dart';
 import 'package:conference/helpers/style.dart';
 import 'package:flutter/gestures.dart';
@@ -178,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _isLoading = false;
                           });
                         }).then((value) {
-                          Navigator.pushReplacementNamed(context, HomeScreen.routName);
+                          Navigator.pushReplacementNamed(context, BottomBarScreen.routeName);
                         });
                         setState(() {
                           _isLoading = false;

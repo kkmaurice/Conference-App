@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/helpers/style.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../Auth/auth_screen.dart';
+import 'home_screen.dart';
 
 
 
@@ -20,15 +23,15 @@ class _MySplashScreenState extends State<SplashScreen> {
   splashScreenTimer() {
     return Timer(const Duration(seconds: 4), () {
       // 4 seconds later, after the splash screen, user will be redirected to home screen
-       Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
-      // if(FirebaseAuth.instance.currentUser != null)
-      // {
-      //   Navigator.push(context, MaterialPageRoute(builder: (context) =>  HomeScreen()));
-      // }
-      // else // user is not logged in
-      // {
-      //   Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
-      // }
+       //Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
+      if(FirebaseAuth.instance.currentUser != null)
+      {
+        Navigator.pushReplacementNamed(context, BottomBarScreen.routeName);
+      }
+      else // user is not logged in
+      {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthScreen()));
+      }
     });
   }
 
@@ -49,7 +52,7 @@ class _MySplashScreenState extends State<SplashScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Image.asset('assets/images/logo.jpg',height: 200,width: 200 ,fit: BoxFit.cover,)),
+                child: Container(child: Image.asset('assets/images/logo2.png',height: 200,width: 200 ,fit: BoxFit.cover,))),
                 const SizedBox(
                   height: 10.0,
                 ),

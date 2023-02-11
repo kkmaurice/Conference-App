@@ -1,4 +1,5 @@
 
+import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Screens/home_screen.dart';
 import 'package:conference/Screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: {
         HomeScreen.routName: (context) => const HomeScreen(),
+        BottomBarScreen.routeName:(context) => const BottomBarScreen()
         //SplashScreen.routName: (context) => const SplashScreen(),
       },
     );

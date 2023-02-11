@@ -1,3 +1,4 @@
+import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Screens/home_screen.dart';
 import 'package:conference/Services/auth_services.dart';
 import 'package:conference/helpers/style.dart';
@@ -341,7 +342,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _passwordTextController.clear();
                               _confirmPasswordTextController.clear();
                             }).then((value) {
-                              Navigator.pushReplacementNamed(context, HomeScreen.routName);
+                              Navigator.pushReplacementNamed(context, BottomBarScreen.routeName);
                             } );
                         
                         setState(() {
