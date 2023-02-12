@@ -12,7 +12,7 @@ class AuthServices{
   // sign in with email & password
   Future createNewUser(String email, String password, user.UserInfo info, BuildContext context) async {
     try {
-     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password);
+     await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password).then((value) => value.user!.updateDisplayName(info.firstName));
      FirebaseFirestore.instance.collection('users').doc(userId).set(info.toMap(), SetOptions(merge: true));
     } on FirebaseException catch(e){
       showDialog(context: context, 

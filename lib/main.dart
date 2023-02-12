@@ -1,6 +1,10 @@
 
 import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Screens/home_screen.dart';
+import 'package:conference/Screens/innerScreens/contacts_screen.dart';
+import 'package:conference/Screens/innerScreens/partners_screen.dart';
+import 'package:conference/Screens/innerScreens/speakers_screen.dart';
+import 'package:conference/Screens/innerScreens/sponsors_screen.dart';
 import 'package:conference/Screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +34,11 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: {
         HomeScreen.routName: (context) => const HomeScreen(),
-        BottomBarScreen.routeName:(context) => const BottomBarScreen()
+        BottomBarScreen.routeName:(context) => const BottomBarScreen(),
+        SponsorsScreen.routeName:(context) => const SponsorsScreen(),
+        SpeakersScreen.routeName:(context) => const SpeakersScreen(),
+        PartnersScreen.routeName:(context) => const PartnersScreen(),
+        ContactsScreen.routeName:(context) => const ContactsScreen(),
         //SplashScreen.routName: (context) => const SplashScreen(),
       },
     );
