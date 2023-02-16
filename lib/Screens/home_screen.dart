@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers
 
+import 'package:animator/animator.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:conference/Screens/innerScreens/speakers_screen.dart';
 import 'package:conference/Screens/innerScreens/sponsors_screen.dart';
@@ -34,10 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Stack(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+            expandedHeight: 220,
+            //pinned: true,
+            backgroundColor: Colors.white,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(
                 children: [
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.30,
@@ -50,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       itemCount: events.length,
                       autoplay: true,
+                      duration: int.parse('1000'),
                       pagination: const SwiperPagination(
                           alignment: Alignment.bottomCenter,
                           builder: DotSwiperPaginationBuilder(
@@ -89,7 +95,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   )
                 ],
               ),
-              Container(
+            ),
+            ),
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                Container(
                 height: MediaQuery.of(context).size.height * 0.15,
                 decoration: const BoxDecoration(
                   color: cardColor,
@@ -139,11 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  InkWell(
-                    onTap: () {
-                      //Navigator.of(context).pushNamed('/speakers');
-                    },
-                    child: ContainerWidget(activityName: 'Speakers', icon: Icons.people,)),
+                  ContainerWidget(activityName: 'Speakers', icon: Icons.people,),
                   ContainerWidget(activityName: 'Sponsors', icon: Icons.emoji_people,),
                 ],
               ),
@@ -160,16 +167,149 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 12,
               ),
-              const HotelContainerWidget()
-            ],
-          ),
+              //LogoApp(),
+              const HotelContainerWidget(),
+              const SizedBox(
+                height: 2,
+              ),
+              ]
+            )
+            )
+          ],
         ),
+        // body: SingleChildScrollView(
+        //   child: Column(
+        //     children: [
+        //       Stack(
+        //         children: [
+        //           SizedBox(
+        //             height: MediaQuery.of(context).size.height * 0.30,
+        //             child: Swiper(
+        //               itemBuilder: (BuildContext context, int index) {
+        //                 return Image.asset(
+        //                   events[index],
+        //                   fit: BoxFit.fill,
+        //                 );
+        //               },
+        //               itemCount: events.length,
+        //               autoplay: true,
+        //               pagination: const SwiperPagination(
+        //                   alignment: Alignment.bottomCenter,
+        //                   builder: DotSwiperPaginationBuilder(
+        //                       color: Colors.white, activeColor: Colors.red)),
+        //               //control: SwiperControl(),
+        //             ),
+        //           ),
+        //           Container(
+        //             height: MediaQuery.of(context).size.height * 0.30,
+        //             decoration:  BoxDecoration(
+        //                color: Colors.black.withOpacity(0.2),
+        //             )),
+        //           Padding(
+        //             padding: const EdgeInsets.only(left: 20, top: 30),
+        //             child: SizedBox(
+        //               height: MediaQuery.of(context).size.height * 0.25,
+        //               child: Column(
+        //                 crossAxisAlignment: CrossAxisAlignment.start,
+        //                 children: const [
+        //                   Text(
+        //                     'Eradicating Poverty\nIn The Northern Region',
+        //                     style: TextStyle(
+        //                         fontSize: 27,
+        //                         color: Colors.white,
+        //                         letterSpacing: 3),
+        //                   ),
+        //                   Text(
+        //                     'Saturday, 24, 2023\nSerena Hotel\nKampala, Uganda',
+        //                     style: TextStyle(
+        //                         fontSize: 15,
+        //                         color: Colors.white,
+        //                         letterSpacing: 3),
+        //                   ),
+        //                 ],
+        //               ),
+        //             ),
+        //           )
+        //         ],
+        //       ),
+        //       Container(
+        //         height: MediaQuery.of(context).size.height * 0.15,
+        //         decoration: const BoxDecoration(
+        //           color: cardColor,
+        //         ),
+        //         child: Row(
+        //           children: [
+        //             Image.asset(
+        //               'assets/images/logo2.png',
+        //               height: 100,
+        //             ),
+        //             Expanded(
+        //               child: Padding(
+        //                 padding: const EdgeInsets.only(top: 15),
+        //                 child: Column(
+        //                   children: [
+        //                     const Text(
+        //                       'Theme:',
+        //                       style: TextStyle(
+        //                           fontSize: 20,
+        //                           color: Colors.white,
+        //                           fontWeight: FontWeight.w800,
+        //                           letterSpacing: 2,
+        //                           fontStyle: FontStyle.italic),
+        //                     ),
+        //                     Container(
+        //                       child: const Text(
+        //                         'Developing a Knowledge and Innovation Eco-System for Sustainable Development.',
+        //                         textAlign: TextAlign.center,
+        //                         style: TextStyle(
+        //                           fontSize: 16,
+        //                           color: Colors.white,
+        //                           fontWeight: FontWeight.w300,
+        //                           letterSpacing: 2,
+        //                         ),
+        //                       ),
+        //                     ),
+        //                   ],
+        //                 ),
+        //               ),
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //       const SizedBox(
+        //         height: 8,
+        //       ),
+        //       Row(
+        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //         children: [
+        //           ContainerWidget(activityName: 'Speakers', icon: Icons.people,),
+        //           ContainerWidget(activityName: 'Sponsors', icon: Icons.emoji_people,),
+        //         ],
+        //       ),
+        //       const SizedBox(
+        //         height: 12,
+        //       ),
+        //       Row(
+        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //         children: [
+        //           ContainerWidget(activityName: 'Partners', icon: Icons.public,),
+        //           ContainerWidget(activityName: 'Contacts', icon: Icons.contact_phone,),
+        //         ],
+        //       ),
+        //       const SizedBox(
+        //         height: 12,
+        //       ),
+        //       //LogoApp(),
+        //       const HotelContainerWidget()
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }
   void fluttertoast(){
     Fluttertoast.showToast(
-        msg: 'Hi ${FirebaseAuth.instance.currentUser!.email} welcome to the 2023 Conference',
+        msg: 'Welcome ${FirebaseAuth.instance.currentUser!.email} to the 2023 Conference',
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
@@ -298,13 +438,29 @@ class ContainerWidget extends StatelessWidget {
           Navigator.of(context).pushNamed(ContactsScreen.routeName);
         }
       },
-      child: Container(
+      child: Animator<double>(
+        duration: const Duration(milliseconds: 1500),
+        cycles: 0,
+        curve: Curves.easeInOut,
+        tween: Tween<double>(begin: 0.8, end: 1.0),
+        builder: (context, animatorState, child) => Transform.scale(
+          scale: animatorState.value,
+          child: Container(
         height: MediaQuery.of(context).size.height * 0.09,
         width: MediaQuery.of(context).size.width * 0.47,
         alignment: Alignment.center,
         decoration:  BoxDecoration(
-          color: Color.fromRGBO(4, 175, 198, 1).withOpacity(0.5),
+          color: Color.fromARGB(255, 2, 52, 52),
           borderRadius: const BorderRadius.all(Radius.circular(15)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              spreadRadius: 0.5,
+              blurRadius: 2,
+              offset: const Offset(0, 3), // changes position of shadow
+              blurStyle: BlurStyle.normal,
+            ),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -317,6 +473,70 @@ class ContainerWidget extends StatelessWidget {
           ],
         )
       ),
+        ),
+      ),
     );
   }
 }
+
+class AnimatedLogo extends AnimatedWidget {
+  const AnimatedLogo({super.key, required Animation<double> animation})
+      : super(listenable: animation);
+
+  // Make the Tweens static because they don't change.
+  static final _opacityTween = Tween<double>(begin: 0.1, end: 1);
+  static final _sizeTween = Tween<double>(begin: 0, end: 300);
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
+    return Center(
+      child: Opacity(
+        opacity: _opacityTween.evaluate(animation),
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          height: _sizeTween.evaluate(animation),
+          width: _sizeTween.evaluate(animation),
+          child: const FlutterLogo(),
+        ),
+      ),
+    );
+  }
+}
+
+// class LogoApp extends StatefulWidget {
+//   const LogoApp({super.key});
+
+//   @override
+//   State<LogoApp> createState() => _LogoAppState();
+// }
+
+// class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
+//   late Animation<double> animation;
+//   late AnimationController controller;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     controller =
+//         AnimationController(duration: const Duration(seconds: 2), vsync: this);
+//     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn)
+//       ..addStatusListener((status) {
+//         if (status == AnimationStatus.completed) {
+//           controller.reverse();
+//         } else if (status == AnimationStatus.dismissed) {
+//           controller.forward();
+//         }
+//       });
+//     controller.forward();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) => AnimatedLogo(animation: animation);
+
+//   @override
+//   void dispose() {
+//     controller.dispose();
+//     super.dispose();
+//   }
+// }

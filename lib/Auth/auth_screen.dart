@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
-
+  static const routeName = 'auth_screen';
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

@@ -1,10 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:io';
+
 import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Screens/home_screen.dart';
 import 'package:conference/Services/auth_services.dart';
 import 'package:conference/helpers/style.dart';
 import 'package:conference/models/user_info_model.dart' as user;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -30,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _phoneNumberFocusNode = FocusNode();
   final _formKey = GlobalKey<FormState>();
   var _phone = '';
-  String _selectedGender = '';
+  
   bool _obsecureText = true;
 
   bool _isLoading = false;
@@ -50,7 +54,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  List<String> gender = ['Male', 'Female', 'Other'];
+  
+  String downloadUrl = "";
+  XFile? imageFile;
+
+  final ImagePicker _picker = ImagePicker();
+  void getImageFromGallery() async {
+    final image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    setState(() {
+      imageFile = image;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -60,7 +76,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 20,
+              height: 12,
             ),
             const Text(
               'Create An Account',
@@ -71,7 +87,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 12,
+            ),
+            GestureDetector(
+              onTap: () {
+                getImageFromGallery();
+              },
+              child: CircleAvatar(
+                radius: MediaQuery.of(context).size.width * 0.15,
+                backgroundColor: Colors.white,
+                backgroundImage:
+                    imageFile == null ? null : FileImage(File(imageFile!.path)),
+                child: imageFile==null? Icon(
+                  Icons.add_photo_alternate,
+                  color: Colors.grey,
+                  size: MediaQuery.of(context).size.width * 0.2,
+                ):null,
+              ),
+            ),
+            const SizedBox(
+              height: 12,
             ),
             Form(
               key: _formKey,
@@ -324,6 +359,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() {
                           _isLoading = true;
                         });
+                        
                        await AuthServices().createNewUser(
                             _emailTextController.text,
                             _passwordTextController.text,
@@ -333,7 +369,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 email: _emailTextController.text,
                                 phoneNumber: _phone,
                                 password: _passwordTextController.text,
-                                userId: FirebaseAuth.instance.currentUser!.uid),
+                                photoUrl: imageFile!.path,
+                                ),
                             context).then((value) {
                               _firstNameTextController.clear();
                               _lastNameNameController.clear();
@@ -341,6 +378,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               _phone = '';
                               _passwordTextController.clear();
                               _confirmPasswordTextController.clear();
+                             // downloadUrl = '';    
                             }).then((value) {
                               Navigator.pushReplacementNamed(context, BottomBarScreen.routeName);
                             } );

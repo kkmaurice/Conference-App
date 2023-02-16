@@ -1,4 +1,5 @@
 
+import 'package:conference/Auth/auth_screen.dart';
 import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Screens/home_screen.dart';
 import 'package:conference/Screens/innerScreens/contacts_screen.dart';
@@ -6,6 +7,7 @@ import 'package:conference/Screens/innerScreens/partners_screen.dart';
 import 'package:conference/Screens/innerScreens/speakers_screen.dart';
 import 'package:conference/Screens/innerScreens/sponsors_screen.dart';
 import 'package:conference/Screens/splash_screen.dart';
+import 'package:conference/Widgets/speaker_details_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +37,12 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.routName: (context) => const HomeScreen(),
         BottomBarScreen.routeName:(context) => const BottomBarScreen(),
-        SponsorsScreen.routeName:(context) => const SponsorsScreen(),
+        SponsorsScreen.routeName:(context) =>  SponsorsScreen(),
         SpeakersScreen.routeName:(context) => const SpeakersScreen(),
-        PartnersScreen.routeName:(context) => const PartnersScreen(),
+        PartnersScreen.routeName:(context) =>  const PartnersScreen(),
         ContactsScreen.routeName:(context) => const ContactsScreen(),
+        AuthScreen.routeName:(context) => const AuthScreen(),
+        SpeakerDetailsScreen.routeName:(context) => const SpeakerDetailsScreen(),
         //SplashScreen.routName: (context) => const SplashScreen(),
       },
     );
