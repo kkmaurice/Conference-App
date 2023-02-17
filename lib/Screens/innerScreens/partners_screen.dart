@@ -81,7 +81,7 @@ class _PartnersScreenState extends State<PartnersScreen> {
         child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            //childAspectRatio: 1.5,
+            //childAspectRatio: 1.5, 
             childAspectRatio: 1.2,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,

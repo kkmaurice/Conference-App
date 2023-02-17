@@ -57,12 +57,21 @@ class SpeakerWidget extends StatelessWidget {
         },
         child: Card(
           elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
           child: Column(
             children: [
-              Image.network(
-                speakers[index].image,
-                height: 250,
-                width: double.infinity,
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                ),
+                child: Image.network(
+                  speakers[index].image,
+                  //height: 250,
+                  width: double.infinity,
+                ),
               ),
               const SizedBox(
                 height: 5,
@@ -116,12 +125,6 @@ class SpeakerWidget extends StatelessWidget {
                   ),
                   ),
               )
-              // Text(
-              //   '${speakers[index].description.substring(0, 150)} ....',
-              //   style: const TextStyle(
-              //     fontSize: 15,
-              //   ),
-              // ),
             ],
           )
         ),
