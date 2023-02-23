@@ -2,6 +2,7 @@ import 'package:conference/Auth/auth_screen.dart';
 import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Screens/home_screen.dart';
 import 'package:conference/Screens/innerScreens/contacts_screen.dart';
+import 'package:conference/Screens/innerScreens/gallery.dart';
 import 'package:conference/Screens/innerScreens/partners_screen.dart';
 import 'package:conference/Screens/innerScreens/speakers_screen.dart';
 import 'package:conference/Screens/innerScreens/sponsors_screen.dart';
@@ -13,6 +14,7 @@ import 'package:conference/Widgets/speaker_details_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'Widgets/gallery_details.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -50,6 +52,9 @@ class MyApp extends StatelessWidget {
         BlogDetailsScreen.routName: (context) => const BlogDetailsScreen(),
         ProjectDetailsScreen.routName: (context) =>
             const ProjectDetailsScreen(),
+        GalleryScreen.routeName: (context) => const GalleryScreen(),
+        GalleryDetailsScreen.routeName: (context) =>
+            const GalleryDetailsScreen(),
         //SplashScreen.routName: (context) => const SplashScreen(),
       },
     );

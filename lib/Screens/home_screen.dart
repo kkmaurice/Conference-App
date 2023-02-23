@@ -6,11 +6,13 @@ import 'package:conference/Screens/innerScreens/speakers_screen.dart';
 import 'package:conference/Screens/innerScreens/sponsors_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:conference/helpers/consts.dart';
 import 'package:conference/helpers/style.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import 'innerScreens/contacts_screen.dart';
 import 'innerScreens/partners_screen.dart';
@@ -24,118 +26,140 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //late YoutubePlayerController _ytbPlayerController;
+
+  // String? videoId =
+  //     YoutubePlayer.convertUrlToId("https://youtu.be/-w6w3Fw3zxc");
+
+  final YoutubePlayerController _ytbPlayerController = YoutubePlayerController(
+    initialVideoId:
+        YoutubePlayer.convertUrlToId("https://youtu.be/-w6w3Fw3zxc")!,
+    flags: const YoutubePlayerFlags(
+      autoPlay: false,
+      mute: false,
+    ),
+  );
 
   @override
   void initState() {
     super.initState();
     fluttertoast();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _ytbPlayerController;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: cardColor,
+        appBar: AppBar(
+          backgroundColor: cardColor,
+          elevation: 0,
+          title: const Text(
+            'UCC 2023',
+            style: TextStyle(color: Colors.white, fontSize: 25),
+          ),
+          centerTitle: true,
+          leading: Row(
+            children: const [
+              SizedBox(
+                width: 2,
+              ),
+              Expanded(
+                child: CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage('assets/images/canada.png')),
+              ),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: CircleAvatar(
+                    radius: 20,
+                    backgroundImage: AssetImage('assets/images/ugflag.png')),
+              ),
+            ],
+          ),
+          actions: [],
+        ),
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-            expandedHeight: 220,
-            //pinned: true,
-            backgroundColor: Colors.white,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Stack(
-                children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.30,
-                    child: Swiper(
-                      itemBuilder: (BuildContext context, int index) {
-                        return Image.asset(
-                          events[index],
-                          fit: BoxFit.fill,
-                        );
-                      },
-                      itemCount: events.length,
-                      autoplay: true,
-                      duration: int.parse('1000'),
-                      pagination: const SwiperPagination(
-                          alignment: Alignment.bottomCenter,
-                          builder: DotSwiperPaginationBuilder(
-                              color: Colors.white, activeColor: Colors.red)),
-                      //control: SwiperControl(),
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.30,
-                    decoration:  BoxDecoration(
-                       color: Colors.black.withOpacity(0.2),
-                    )),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, top: 30),
-                    child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.25,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
-                            'Eradicating Poverty\nIn The Northern Region',
-                            style: TextStyle(
-                                fontSize: 27,
-                                color: Colors.white,
-                                letterSpacing: 3),
-                          ),
-                          Text(
-                            'Saturday, 24, 2023\nSerena Hotel\nKampala, Uganda',
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                letterSpacing: 3),
-                          ),
-                        ],
+              expandedHeight: 220,
+              //pinned: true,
+              backgroundColor: Colors.white,
+              flexibleSpace: FlexibleSpaceBar(
+                background: Stack(
+                  children: [
+                    Container(
+                      color: cardColor,
+                      height: MediaQuery.of(context).size.height * 0.30,
+                      child: Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          return ClipRRect(
+                            borderRadius: BorderRadius.circular(30),
+                            child: Image.asset(
+                              events[index],
+                              fit: BoxFit.values[2],
+                            ),
+                          );
+                          // return Image.asset(
+                          //   events[index],
+                          //   fit: BoxFit.fill,
+                          // );
+                        },
+                        itemCount: events.length,
+                        autoplay: true,
+                        duration: int.parse('1000'),
+                        pagination: const SwiperPagination(
+                            alignment: Alignment.bottomCenter,
+                            builder: DotSwiperPaginationBuilder(
+                                color: Colors.white, activeColor: Colors.red)),
+                        //control: SwiperControl(),
                       ),
                     ),
-                  )
-                ],
+                  ],
+                ),
               ),
             ),
-            ),
-          SliverList(
-            delegate: SliverChildListDelegate(
-              [
-                Container(
+            SliverList(
+                delegate: SliverChildListDelegate([
+              Container(
                 height: MediaQuery.of(context).size.height * 0.15,
                 decoration: const BoxDecoration(
                   color: cardColor,
                 ),
                 child: Row(
                   children: [
-                    Image.asset(
-                      'assets/images/logo2.png',
-                      height: 100,
+                    const Padding(
+                      padding: EdgeInsets.only(
+                        left: 10,
+                      ),
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage('assets/images/photo4.jpg'),
+                      ),
                     ),
                     Expanded(
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 15),
+                        padding:
+                            const EdgeInsets.only(top: 15, left: 7, right: 7),
                         child: Column(
-                          children: [
-                            const Text(
-                              'Theme:',
+                          children: const [
+                            Text(
+                              'Uganda Canada Convention - Ottawa 2023 Edition',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 22,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: 2,
                                   fontStyle: FontStyle.italic),
-                            ),
-                            Container(
-                              child: const Text(
-                                'Developing a Knowledge and Innovation Eco-System for Sustainable Development.',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w300,
-                                  letterSpacing: 2,
-                                ),
-                              ),
                             ),
                           ],
                         ),
@@ -145,172 +169,85 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               const SizedBox(
-                height: 8,
+                height: 5,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ContainerWidget(activityName: 'Speakers', icon: Icons.people,),
-                  ContainerWidget(activityName: 'Sponsors', icon: Icons.emoji_people,),
+                  ContainerWidget(
+                    activityName: 'Speakers',
+                    icon: Icons.people,
+                  ),
+                  ContainerWidget(
+                    activityName: 'Sponsors',
+                    icon: Icons.emoji_people,
+                  ),
                 ],
               ),
               const SizedBox(
-                height: 12,
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ContainerWidget(activityName: 'Partners', icon: Icons.public,),
-                  ContainerWidget(activityName: 'Contacts', icon: Icons.contact_phone,),
+                  ContainerWidget(
+                    activityName: 'Partners',
+                    icon: Icons.public,
+                  ),
+                  ContainerWidget(
+                    activityName: 'Contacts',
+                    icon: Icons.contact_phone,
+                  ),
                 ],
               ),
               const SizedBox(
-                height: 12,
+                height: 10,
               ),
-              //LogoApp(),
+              Container(
+                decoration: BoxDecoration(
+                  color: cardColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: _ytbPlayerController != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: YoutubePlayer(
+                            controller: _ytbPlayerController,
+                            showVideoProgressIndicator: true,
+                            progressIndicatorColor: Colors.blueAccent,
+                            progressColors: const ProgressBarColors(
+                              playedColor: Colors.blueAccent,
+                              handleColor: Colors.blueAccent,
+                            ),
+                            onReady: () {
+                              //_ytbPlayerController.addListener(listener);
+                            },
+                          ),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                ),
+              ),
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Image.asset('assets/images/photo1.png')),
               const HotelContainerWidget(),
               const SizedBox(
                 height: 2,
               ),
-              ]
-            )
-            )
+            ]))
           ],
         ),
-        // body: SingleChildScrollView(
-        //   child: Column(
-        //     children: [
-        //       Stack(
-        //         children: [
-        //           SizedBox(
-        //             height: MediaQuery.of(context).size.height * 0.30,
-        //             child: Swiper(
-        //               itemBuilder: (BuildContext context, int index) {
-        //                 return Image.asset(
-        //                   events[index],
-        //                   fit: BoxFit.fill,
-        //                 );
-        //               },
-        //               itemCount: events.length,
-        //               autoplay: true,
-        //               pagination: const SwiperPagination(
-        //                   alignment: Alignment.bottomCenter,
-        //                   builder: DotSwiperPaginationBuilder(
-        //                       color: Colors.white, activeColor: Colors.red)),
-        //               //control: SwiperControl(),
-        //             ),
-        //           ),
-        //           Container(
-        //             height: MediaQuery.of(context).size.height * 0.30,
-        //             decoration:  BoxDecoration(
-        //                color: Colors.black.withOpacity(0.2),
-        //             )),
-        //           Padding(
-        //             padding: const EdgeInsets.only(left: 20, top: 30),
-        //             child: SizedBox(
-        //               height: MediaQuery.of(context).size.height * 0.25,
-        //               child: Column(
-        //                 crossAxisAlignment: CrossAxisAlignment.start,
-        //                 children: const [
-        //                   Text(
-        //                     'Eradicating Poverty\nIn The Northern Region',
-        //                     style: TextStyle(
-        //                         fontSize: 27,
-        //                         color: Colors.white,
-        //                         letterSpacing: 3),
-        //                   ),
-        //                   Text(
-        //                     'Saturday, 24, 2023\nSerena Hotel\nKampala, Uganda',
-        //                     style: TextStyle(
-        //                         fontSize: 15,
-        //                         color: Colors.white,
-        //                         letterSpacing: 3),
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //           )
-        //         ],
-        //       ),
-        //       Container(
-        //         height: MediaQuery.of(context).size.height * 0.15,
-        //         decoration: const BoxDecoration(
-        //           color: cardColor,
-        //         ),
-        //         child: Row(
-        //           children: [
-        //             Image.asset(
-        //               'assets/images/logo2.png',
-        //               height: 100,
-        //             ),
-        //             Expanded(
-        //               child: Padding(
-        //                 padding: const EdgeInsets.only(top: 15),
-        //                 child: Column(
-        //                   children: [
-        //                     const Text(
-        //                       'Theme:',
-        //                       style: TextStyle(
-        //                           fontSize: 20,
-        //                           color: Colors.white,
-        //                           fontWeight: FontWeight.w800,
-        //                           letterSpacing: 2,
-        //                           fontStyle: FontStyle.italic),
-        //                     ),
-        //                     Container(
-        //                       child: const Text(
-        //                         'Developing a Knowledge and Innovation Eco-System for Sustainable Development.',
-        //                         textAlign: TextAlign.center,
-        //                         style: TextStyle(
-        //                           fontSize: 16,
-        //                           color: Colors.white,
-        //                           fontWeight: FontWeight.w300,
-        //                           letterSpacing: 2,
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ],
-        //                 ),
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //       const SizedBox(
-        //         height: 8,
-        //       ),
-        //       Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //         children: [
-        //           ContainerWidget(activityName: 'Speakers', icon: Icons.people,),
-        //           ContainerWidget(activityName: 'Sponsors', icon: Icons.emoji_people,),
-        //         ],
-        //       ),
-        //       const SizedBox(
-        //         height: 12,
-        //       ),
-        //       Row(
-        //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //         children: [
-        //           ContainerWidget(activityName: 'Partners', icon: Icons.public,),
-        //           ContainerWidget(activityName: 'Contacts', icon: Icons.contact_phone,),
-        //         ],
-        //       ),
-        //       const SizedBox(
-        //         height: 12,
-        //       ),
-        //       //LogoApp(),
-        //       const HotelContainerWidget()
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }
-  void fluttertoast(){
+
+  void fluttertoast() {
     Fluttertoast.showToast(
-        msg: 'Welcome ${FirebaseAuth.instance.currentUser!.email} to the 2023 Conference',
-        toastLength: Toast.LENGTH_LONG,
+        msg:
+            'Welcome ${FirebaseAuth.instance.currentUser!.email} to the 2023 Conference',
+        toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
         backgroundColor: Colors.red,
@@ -327,11 +264,10 @@ class HotelContainerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: 
-        [
-          Container(
+      children: [
+        Container(
           height: MediaQuery.of(context).size.height * 0.45,
-          width: MediaQuery.of(context).size.width * 0.98,
+          width: MediaQuery.of(context).size.width,
           decoration: const BoxDecoration(
             color: cardColor,
             borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -342,13 +278,18 @@ class HotelContainerWidget extends StatelessWidget {
           ),
         ),
         Container(
+            height: MediaQuery.of(context).size.height * 0.30,
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.2),
+            )),
+        SizedBox(
           height: MediaQuery.of(context).size.height * 0.45,
           width: MediaQuery.of(context).size.width * 0.98,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Serena Hotel',
+                'The Westin Ottawa',
                 style: TextStyle(
                     fontSize: 30,
                     color: Colors.white,
@@ -361,13 +302,13 @@ class HotelContainerWidget extends StatelessWidget {
               ),
               Container(
                 child: const Text(
-                  'The Serena Hotel Kampala is a 5-star hotel located in Kampala, Uganda. It is the largest hotel in Uganda and the largest hotel in East Africa.',
+                  "With a stay at The Westin Ottawa, you’ll be centrally located in Ottawa, steps from Shaw Centre and within a 10-minute walk of University of Ottawa. This 4-star hotel is 0.4 mi (0.6 km) from By ward Market Square and 0.4 mi (0.7 km) from Parliament Hill.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
                     color: Colors.white,
-                    fontWeight: FontWeight.w300,
-                    letterSpacing: 2,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 1.5,
                   ),
                 ),
               ),
@@ -377,7 +318,8 @@ class HotelContainerWidget extends StatelessWidget {
               GestureDetector(
                 // url launcher
                 onTap: () async {
-                  const url = 'https://www.serenahotels.com/kampala/location-contact';
+                  const url =
+                      'https://www.marriott.com/event-reservations/reservation-link.mi?id=1646317918687&key=GRP&app=resvlink';
                   if (await canLaunchUrl(Uri.parse(url))) {
                     await launchUrl(Uri.parse(url));
                   } else {
@@ -385,7 +327,7 @@ class HotelContainerWidget extends StatelessWidget {
                   }
                 },
                 child: Container(
-                  height: 50,
+                  height: MediaQuery.of(context).size.height * 0.06,
                   width: 150,
                   decoration: BoxDecoration(
                     color: Colors.red.withOpacity(0.5),
@@ -405,15 +347,12 @@ class HotelContainerWidget extends StatelessWidget {
                 ),
               ),
             ],
-          
           ),
         ),
       ],
     );
   }
 }
-
-
 
 class ContainerWidget extends StatelessWidget {
   String activityName;
@@ -441,38 +380,40 @@ class ContainerWidget extends StatelessWidget {
       child: Animator<double>(
         duration: const Duration(milliseconds: 1500),
         cycles: 0,
-        curve: Curves.easeInOut,
+        curve: Curves.fastLinearToSlowEaseIn,
         tween: Tween<double>(begin: 0.8, end: 1.0),
         builder: (context, animatorState, child) => Transform.scale(
           scale: animatorState.value,
           child: Container(
-        height: MediaQuery.of(context).size.height * 0.09,
-        width: MediaQuery.of(context).size.width * 0.47,
-        alignment: Alignment.center,
-        decoration:  BoxDecoration(
-          color: Color.fromARGB(255, 2, 52, 52),
-          borderRadius: const BorderRadius.all(Radius.circular(15)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.5),
-              spreadRadius: 0.5,
-              blurRadius: 2,
-              offset: const Offset(0, 3), // changes position of shadow
-              blurStyle: BlurStyle.normal,
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: Colors.white, size: 27),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(activityName, style: const TextStyle(color: Colors.white, fontSize: 20),),
-          ],
-        )
-      ),
+              height: MediaQuery.of(context).size.height * 0.09,
+              width: MediaQuery.of(context).size.width * 0.47,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 18, 187, 193),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 0.5,
+                    blurRadius: 2,
+                    offset: const Offset(0, 3), // changes position of shadow
+                    blurStyle: BlurStyle.normal,
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(icon, color: Colors.white, size: 27),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    activityName,
+                    style: const TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ],
+              )),
         ),
       ),
     );
@@ -503,40 +444,3 @@ class AnimatedLogo extends AnimatedWidget {
     );
   }
 }
-
-// class LogoApp extends StatefulWidget {
-//   const LogoApp({super.key});
-
-//   @override
-//   State<LogoApp> createState() => _LogoAppState();
-// }
-
-// class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
-//   late Animation<double> animation;
-//   late AnimationController controller;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     controller =
-//         AnimationController(duration: const Duration(seconds: 2), vsync: this);
-//     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn)
-//       ..addStatusListener((status) {
-//         if (status == AnimationStatus.completed) {
-//           controller.reverse();
-//         } else if (status == AnimationStatus.dismissed) {
-//           controller.forward();
-//         }
-//       });
-//     controller.forward();
-//   }
-
-//   @override
-//   Widget build(BuildContext context) => AnimatedLogo(animation: animation);
-
-//   @override
-//   void dispose() {
-//     controller.dispose();
-//     super.dispose();
-//   }
-// }

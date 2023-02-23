@@ -47,23 +47,13 @@ class _BottomBarScreenState extends State<BottomBarScreen> {
           backgroundColor: cardColor,
           unselectedItemColor: Colors.white,
           items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home'),
+                icon: Icon(IconlyBold.activity), label: 'Events'),
             BottomNavigationBarItem(
-                icon: Icon(
-                     IconlyBold.activity
-                    ),
-                label: 'Events'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.shelves),
-                label: 'Projects'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.chat),
-                label: 'Blog'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.more_horiz),
-                label: 'More')
+                icon: Icon(Icons.shelves), label: 'Projects'),
+            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Blog'),
+            BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More')
           ]),
     );
   }
