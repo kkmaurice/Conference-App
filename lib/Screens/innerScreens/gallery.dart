@@ -28,15 +28,19 @@ class _GalleryScreenState extends State<GalleryScreen> {
             crossAxisCount: 2,
             crossAxisSpacing: 10,
             mainAxisSpacing: 10,
+            childAspectRatio: 10 / 12,
           ),
           children: imageList
               .map(
                 (e) => GestureDetector(
                   onTap: () => Navigator.of(context)
                       .pushNamed(GalleryDetailsScreen.routeName, arguments: e),
-                  child: Image.network(
-                    e,
-                    fit: BoxFit.cover,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.asset(
+                      e,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               )

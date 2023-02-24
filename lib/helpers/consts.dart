@@ -15,6 +15,35 @@ List<String> events = [
   'assets/images/photo6.jpg'
 ];
 
+List<String> hotel = [
+  'assets/hotel/hotel.jpg',
+  'assets/hotel/hot1.jpeg',
+  'assets/hotel/pexels-amar-saleem-70441.jpg',
+  'assets/hotel/pexels-asman-chema-594077.jpg',
+  'assets/hotel/pexels-digital-buggu-172872.jpg',
+  'assets/hotel/pexels-igor-starkov-756083.jpg',
+  'assets/hotel/pexels-karl-solano-2883047.jpg',
+  'assets/hotel/pexels-kelly-2869215.jpg',
+  'assets/hotel/pexels-leonardo-rossatti-2598638.jpg',
+  'assets/hotel/pexels-nastyasensei-331107.jpg',
+  'assets/hotel/pexels-palu-malerba-2607113.jpg',
+  'assets/hotel/pexels-pixabay-161758.jpg',
+  'assets/hotel/pexels-pixabay-260922.jpg',
+  'assets/hotel/pexels-pixabay-261169.jpg',
+  'assets/hotel/pexels-pixabay-279746.jpg',
+  'assets/hotel/pexels-vecislavas-popa-1743231.jpg'
+
+  // 'assets/hotel/80720749.jpg',
+  // 'assets/hotel/841709572.jpg',
+  // 'assets/hotel/935520616.jpg',
+  // 'assets/hotel/1506436275.jpeg',
+  // 'assets/hotel/1680826078.jpg',
+  // 'assets/hotel/1728161158.jpg',
+  // 'assets/hotel/3011733377.jpg',
+  // 'assets/hotel/3418811937.jpg',
+  // 'assets/hotel/3681048439.jpg',
+  // 'assets/hotel/Dalys-Express_resize.jpg',
+];
 SharedPreferences? sharedPreferences;
 
 List<Speakers> speakers = [

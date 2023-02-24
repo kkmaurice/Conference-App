@@ -50,17 +50,21 @@ class _MySplashScreenState extends State<SplashScreen> {
           Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
-                  child: Image.asset(
-                'assets/images/logo2.png',
-                height: 200,
-                width: 200,
-                fit: BoxFit.cover,
+                  child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.asset(
+                  'assets/images/photo4.jpg',
+                  height: 200,
+                  width: 200,
+                  fit: BoxFit.cover,
+                ),
               ))),
           const SizedBox(
             height: 10.0,
           ),
           const Text(
-            'Unity In Diversity And Moral',
+            'Uganda Canada Convention - Ottawa 2023',
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
               fontSize: 25.0,

@@ -15,7 +15,10 @@ class GalleryDetailsScreen extends StatelessWidget {
         automaticallyImplyLeading: true,
         backgroundColor: cardColor,
       ),
-      body: Center(child: Image.network(src)),
+      body: Center(
+          child: ClipRRect(
+              borderRadius: BorderRadius.circular(25),
+              child: Image.asset(src))),
     );
   }
 }

@@ -108,10 +108,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               fit: BoxFit.values[2],
                             ),
                           );
-                          // return Image.asset(
-                          //   events[index],
-                          //   fit: BoxFit.fill,
-                          // );
                         },
                         itemCount: events.length,
                         autoplay: true,
@@ -229,9 +225,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       : const Center(child: CircularProgressIndicator()),
                 ),
               ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                    'Don’t Miss Canada Day | The Uganda-Canadian Business Expo and Convention',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 2,
+                        fontStyle: FontStyle.italic)),
+              ),
               ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: Image.asset('assets/images/photo1.png')),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Hotel Accommodation',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 2,
+                        fontStyle: FontStyle.italic)),
+              ),
               const HotelContainerWidget(),
               const SizedBox(
                 height: 2,
@@ -271,14 +290,25 @@ class HotelContainerWidget extends StatelessWidget {
           decoration: const BoxDecoration(
             color: cardColor,
             borderRadius: BorderRadius.all(Radius.circular(15)),
-            image: DecorationImage(
-              image: AssetImage('assets/images/hotel.jpg'),
-              fit: BoxFit.cover,
-            ),
+          ),
+          child: Swiper(
+            itemBuilder: (BuildContext context, int index) {
+              return ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Image.asset(
+                  hotel[index],
+                  fit: BoxFit.values[2],
+                ),
+              );
+            },
+            itemCount: hotel.length,
+            autoplay: true,
+            duration: int.parse('3000'),
+            //control: SwiperControl(),
           ),
         ),
         Container(
-            height: MediaQuery.of(context).size.height * 0.30,
+            height: MediaQuery.of(context).size.height * 0.45,
             decoration: BoxDecoration(
               color: Colors.black.withOpacity(0.2),
             )),
@@ -302,7 +332,7 @@ class HotelContainerWidget extends StatelessWidget {
               ),
               Container(
                 child: const Text(
-                  "With a stay at The Westin Ottawa, you’ll be centrally located in Ottawa, steps from Shaw Centre and within a 10-minute walk of University of Ottawa. This 4-star hotel is 0.4 mi (0.6 km) from By ward Market Square and 0.4 mi (0.7 km) from Parliament Hill.",
+                  "With a stay at The Westin Ottawa, you’ll be centrally located in Ottawa, steps from Shaw Centre and within a 10-minute walk of University of Ottawa. ",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
