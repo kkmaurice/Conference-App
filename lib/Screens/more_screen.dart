@@ -16,7 +16,7 @@ class MoreScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Color.fromARGB(255, 5, 52, 90),
+            backgroundColor: const Color.fromARGB(255, 5, 52, 90),
             body:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(

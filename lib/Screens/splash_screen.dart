@@ -32,6 +32,17 @@ class _MySplashScreenState extends State<SplashScreen> {
     });
   }
 
+  String _timeOfDay() {
+    var now = DateTime.now();
+    if (now.hour < 12) {
+      return 'Good Morning';
+    } else if (now.hour < 17) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
+    }
+  }
+
   @override
   void initState() //called automatically when user comes here to this screen
   {
@@ -51,7 +62,7 @@ class _MySplashScreenState extends State<SplashScreen> {
               padding: const EdgeInsets.all(10.0),
               child: Container(
                   child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
+                borderRadius: BorderRadius.circular(200),
                 child: Image.asset(
                   'assets/images/photo4.jpg',
                   height: 200,
@@ -69,6 +80,18 @@ class _MySplashScreenState extends State<SplashScreen> {
               color: Colors.white,
               fontSize: 25.0,
               fontWeight: FontWeight.bold,
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(
+              "${_timeOfDay()}, ${FirebaseAuth.instance.currentUser!.displayName}",
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 20.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ],
