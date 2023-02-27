@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers
 
+import 'dart:ui';
+
 import 'package:animator/animator.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:conference/Screens/innerScreens/speakers_screen.dart';
@@ -14,6 +16,7 @@ import 'package:conference/helpers/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../Widgets/count_down_time.dart';
 import 'innerScreens/contacts_screen.dart';
 import 'innerScreens/partners_screen.dart';
 
@@ -151,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               'Uganda Canada Convention - Ottawa 2023 Edition',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  fontSize: 22,
+                                  fontSize: 20,
                                   color: Colors.white,
                                   fontWeight: FontWeight.w800,
                                   letterSpacing: 2,
@@ -162,6 +165,32 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              // CountdownWidget(
+              //   eventDate: DateTime(2023, 6, 30),
+              // ),
+              const Padding(
+                padding:
+                    EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 10),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text('Event countdown',
+                      style: TextStyle(
+                          color: Colors.white, fontStyle: FontStyle.italic)),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(8),
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: CountdownWidget(
+                    eventDate: DateTime(2023, 6, 30),
+                  ),
                 ),
               ),
               const SizedBox(
