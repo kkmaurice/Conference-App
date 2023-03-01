@@ -1,14 +1,12 @@
 // ignore_for_file: avoid_unnecessary_containers
 
-import 'dart:ui';
-
 import 'package:animator/animator.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:conference/Screens/innerScreens/speakers_screen.dart';
 import 'package:conference/Screens/innerScreens/sponsors_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:conference/helpers/consts.dart';
@@ -16,7 +14,9 @@ import 'package:conference/helpers/style.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../Widgets/bottom_sheet.dart';
 import '../Widgets/count_down_time.dart';
+import '../Widgets/pdf.dart';
 import 'innerScreens/contacts_screen.dart';
 import 'innerScreens/partners_screen.dart';
 
@@ -29,10 +29,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  //late YoutubePlayerController _ytbPlayerController;
-
-  // String? videoId =
-  //     YoutubePlayer.convertUrlToId("https://youtu.be/-w6w3Fw3zxc");
+  bool isFabVisible = false;
 
   final YoutubePlayerController _ytbPlayerController = YoutubePlayerController(
     initialVideoId:
@@ -75,217 +72,268 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: CircleAvatar(
-                    radius: 20,
+                    radius: 17,
                     backgroundImage: AssetImage('assets/images/canada.png')),
               ),
               SizedBox(
                 width: 5,
               ),
-              Expanded(
-                child: CircleAvatar(
-                    radius: 20,
-                    backgroundImage: AssetImage('assets/images/ugflag.png')),
-              ),
             ],
           ),
-          actions: [],
-        ),
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 220,
-              //pinned: true,
-              backgroundColor: Colors.white,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Stack(
-                  children: [
-                    Container(
-                      color: cardColor,
-                      height: MediaQuery.of(context).size.height * 0.30,
-                      child: Swiper(
-                        itemBuilder: (BuildContext context, int index) {
-                          return ClipRRect(
-                            borderRadius: BorderRadius.circular(30),
-                            child: Image.asset(
-                              events[index],
-                              fit: BoxFit.values[2],
-                            ),
-                          );
-                        },
-                        itemCount: events.length,
-                        autoplay: true,
-                        duration: int.parse('1000'),
-                        pagination: const SwiperPagination(
-                            alignment: Alignment.bottomCenter,
-                            builder: DotSwiperPaginationBuilder(
-                                color: Colors.white, activeColor: Colors.red)),
-                        //control: SwiperControl(),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                  onPressed: () {
+                    // open bottom sheet
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return const BottomSheetWidget();
+                        });
+                  },
+                  icon: const Icon(
+                    Icons.message,
+                    color: Colors.white,
+                    size: 30,
+                  )),
             ),
-            SliverList(
-                delegate: SliverChildListDelegate([
-              Container(
-                height: MediaQuery.of(context).size.height * 0.15,
-                decoration: const BoxDecoration(
-                  color: cardColor,
-                ),
-                child: Row(
-                  children: [
-                    const Padding(
-                      padding: EdgeInsets.only(
-                        left: 10,
-                      ),
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage('assets/images/photo4.jpg'),
-                      ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 15, left: 7, right: 7),
-                        child: Column(
-                          children: const [
-                            Text(
-                              'Uganda Canada Convention - Ottawa 2023 Edition',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20,
+            const Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: CircleAvatar(
+                  radius: 17,
+                  backgroundImage: AssetImage('assets/images/ugflag.png')),
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+          ],
+        ),
+        floatingActionButton: isFabVisible
+            ? FloatingActionButton.extended(
+                onPressed: () async {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const Pdf();
+                  }));
+                },
+                label: const Text('Media'),
+                icon: const Icon(Icons.picture_as_pdf),
+                backgroundColor: Colors.red,
+              )
+            : null,
+        body: NotificationListener<UserScrollNotification>(
+          onNotification: (notification) {
+            if (notification.direction == ScrollDirection.forward) {
+              setState(() {
+                isFabVisible = true;
+              });
+            } else if (notification.direction == ScrollDirection.reverse) {
+              setState(() {
+                isFabVisible = false;
+              });
+            }
+            return true;
+          },
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 220,
+                //pinned: true,
+                backgroundColor: Colors.white,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Stack(
+                    children: [
+                      Container(
+                        color: cardColor,
+                        height: MediaQuery.of(context).size.height * 0.30,
+                        child: Swiper(
+                          itemBuilder: (BuildContext context, int index) {
+                            return ClipRRect(
+                              borderRadius: BorderRadius.circular(30),
+                              child: Image.asset(
+                                events[index],
+                                fit: BoxFit.values[2],
+                              ),
+                            );
+                          },
+                          itemCount: events.length,
+                          autoplay: true,
+                          duration: int.parse('1000'),
+                          pagination: const SwiperPagination(
+                              alignment: Alignment.bottomCenter,
+                              builder: DotSwiperPaginationBuilder(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 2,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                          ],
+                                  activeColor: Colors.red)),
+                          //control: SwiperControl(),
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.15,
+                  decoration: const BoxDecoration(
+                    color: cardColor,
+                  ),
+                  child: Row(
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                        ),
+                        child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage:
+                              AssetImage('assets/images/photo4.jpg'),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(top: 15, left: 7, right: 7),
+                          child: Column(
+                            children: const [
+                              Text(
+                                'Uganda Canada Convention - Ottawa 2023 Edition',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                    letterSpacing: 2,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                // CountdownWidget(
+                //   eventDate: DateTime(2023, 6, 30),
+                // ),
+                const Padding(
+                  padding:
+                      EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text('Event countdown',
+                        style: TextStyle(
+                            color: Colors.white, fontStyle: FontStyle.italic)),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Center(
+                    child: CountdownWidget(
+                      eventDate: DateTime(2023, 6, 30),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ContainerWidget(
+                      activityName: 'Speakers',
+                      icon: Icons.people,
+                    ),
+                    ContainerWidget(
+                      activityName: 'Sponsors',
+                      icon: Icons.emoji_people,
                     ),
                   ],
                 ),
-              ),
-              // CountdownWidget(
-              //   eventDate: DateTime(2023, 6, 30),
-              // ),
-              const Padding(
-                padding:
-                    EdgeInsets.only(top: 2, left: 10, right: 10, bottom: 10),
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text('Event countdown',
-                      style: TextStyle(
-                          color: Colors.white, fontStyle: FontStyle.italic)),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(8),
-                margin: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ContainerWidget(
+                      activityName: 'Partners',
+                      icon: Icons.public,
+                    ),
+                    ContainerWidget(
+                      activityName: 'Contacts',
+                      icon: Icons.contact_phone,
+                    ),
+                  ],
                 ),
-                child: Center(
-                  child: CountdownWidget(
-                    eventDate: DateTime(2023, 6, 30),
-                  ),
+                const SizedBox(
+                  height: 10,
                 ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ContainerWidget(
-                    activityName: 'Speakers',
-                    icon: Icons.people,
+                Container(
+                  decoration: BoxDecoration(
+                    color: cardColor,
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  ContainerWidget(
-                    activityName: 'Sponsors',
-                    icon: Icons.emoji_people,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ContainerWidget(
-                    activityName: 'Partners',
-                    icon: Icons.public,
-                  ),
-                  ContainerWidget(
-                    activityName: 'Contacts',
-                    icon: Icons.contact_phone,
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: cardColor,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: _ytbPlayerController != null
-                      ? ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: YoutubePlayer(
-                            controller: _ytbPlayerController,
-                            showVideoProgressIndicator: true,
-                            progressIndicatorColor: Colors.blueAccent,
-                            progressColors: const ProgressBarColors(
-                              playedColor: Colors.blueAccent,
-                              handleColor: Colors.blueAccent,
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: _ytbPlayerController != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: YoutubePlayer(
+                              controller: _ytbPlayerController,
+                              showVideoProgressIndicator: true,
+                              progressIndicatorColor: Colors.blueAccent,
+                              progressColors: const ProgressBarColors(
+                                playedColor: Colors.blueAccent,
+                                handleColor: Colors.blueAccent,
+                              ),
+                              onReady: () {
+                                //_ytbPlayerController.addListener(listener);
+                              },
                             ),
-                            onReady: () {
-                              //_ytbPlayerController.addListener(listener);
-                            },
-                          ),
-                        )
-                      : const Center(child: CircularProgressIndicator()),
+                          )
+                        : const Center(child: CircularProgressIndicator()),
+                  ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                    'Don’t Miss Canada Day | The Uganda-Canadian Business Expo and Convention',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 2,
-                        fontStyle: FontStyle.italic)),
-              ),
-              ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
-                  child: Image.asset('assets/images/photo1.png')),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text('Hotel Accommodation',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 2,
-                        fontStyle: FontStyle.italic)),
-              ),
-              const HotelContainerWidget(),
-              const SizedBox(
-                height: 2,
-              ),
-            ]))
-          ],
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                      'Don’t Miss Canada Day | The Uganda-Canadian Business Expo and Convention',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2,
+                          fontStyle: FontStyle.italic)),
+                ),
+                ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.asset('assets/images/photo1.png')),
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Hotel Accommodation',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: 2,
+                          fontStyle: FontStyle.italic)),
+                ),
+                const HotelContainerWidget(),
+                const SizedBox(
+                  height: 2,
+                ),
+              ]))
+            ],
+          ),
         ),
       ),
     );

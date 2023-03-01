@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Association App',
+      title: 'UCC',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -53,9 +53,7 @@ class MyApp extends StatelessWidget {
         ProjectDetailsScreen.routName: (context) =>
             const ProjectDetailsScreen(),
         GalleryScreen.routeName: (context) => const GalleryScreen(),
-        GalleryDetailsScreen.routeName: (context) =>
-            const GalleryDetailsScreen(),
-        //SplashScreen.routName: (context) => const SplashScreen(),
+        GalleryDetailsScreen.routeName: (context) => GalleryDetailsScreen(),
       },
     );
   }
