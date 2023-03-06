@@ -1,7 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conference/helpers/projects.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 
 import '../helpers/style.dart';
 
@@ -23,11 +22,21 @@ class ProjectDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              projects[index].image,
+            CachedNetworkImage(
+              imageUrl: projects[index].image,
               //height: 250,
               width: double.infinity,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
+            // Image.network(
+            //   projects[index].image,
+            //   //height: 250,
+            //   width: double.infinity,
+            // ),
             const SizedBox(
               height: 5,
             ),

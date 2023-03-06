@@ -60,12 +60,22 @@ dependencies:
   path: ^1.8.2
   path_provider: ^2.0.13
   syncfusion_flutter_pdfviewer: ^20.4.52
+  flutter_easyloading: ^3.0.5
+  cached_network_image: ^3.2.3
+  intl: ^0.17.0
+  flutter_launcher_icons: ^0.12.0
 
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/photo4.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

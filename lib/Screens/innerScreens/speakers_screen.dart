@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conference/helpers/style.dart';
 import 'package:flutter/material.dart';
 
@@ -58,16 +59,27 @@ class SpeakerWidget extends StatelessWidget {
             child: Column(
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
-                  ),
-                  child: Image.network(
-                    speakers[index].image,
-                    //height: 250,
-                    width: double.infinity,
-                  ),
-                ),
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: speakers[index].image,
+                      //height: 250,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    )
+                    // Image.network(
+                    //   speakers[index].image,
+                    //   //height: 250,
+                    //   width: double.infinity,
+                    // ),
+                    ),
                 const SizedBox(
                   height: 5,
                 ),

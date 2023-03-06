@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conference/Widgets/projects_details.dart';
 import 'package:conference/helpers/projects.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class ProjectsScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: cardColor,
         appBar: AppBar(
-          title: const Text('Projects'),
+          title: const Text('Blog'),
           backgroundColor: cardColor,
           elevation: 0,
           centerTitle: true,
@@ -57,15 +58,26 @@ class EventsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15)),
-                  child: Image.network(
-                    projects[index].image,
-                    //height: 250,
-                    width: double.infinity,
-                  ),
-                ),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)),
+                    child: CachedNetworkImage(
+                      imageUrl: projects[index].image,
+                      //height: 250,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    )
+                    // Image.network(
+                    //   projects[index].image,
+                    //   //height: 250,
+                    //   width: double.infinity,
+                    // ),
+                    ),
                 const SizedBox(
                   height: 5,
                 ),

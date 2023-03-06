@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:conference/Widgets/events_details.dart';
 import 'package:conference/helpers/consts.dart';
 import 'package:conference/helpers/events_helper.dart';
@@ -59,15 +60,26 @@ class EventsWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15)),
-                  child: Image.network(
-                    eventItems[index].image,
-                    //height: 250,
-                    width: double.infinity,
-                  ),
-                ),
+                    borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)),
+                    child: CachedNetworkImage(
+                      imageUrl: eventItems[index].image,
+                      //height: 250,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    )
+                    // Image.network(
+                    //   eventItems[index].image,
+                    //   //height: 250,
+                    //   width: double.infinity,
+                    // ),
+                    ),
                 const SizedBox(
                   height: 5,
                 ),

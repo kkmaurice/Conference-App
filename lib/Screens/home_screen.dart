@@ -2,11 +2,14 @@
 
 import 'package:animator/animator.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:conference/Screens/innerScreens/chat_main_page.dart';
+import 'package:conference/Screens/innerScreens/pdf_ucc.dart';
 import 'package:conference/Screens/innerScreens/speakers_screen.dart';
 import 'package:conference/Screens/innerScreens/sponsors_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:conference/helpers/consts.dart';
@@ -16,7 +19,6 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../Widgets/bottom_sheet.dart';
 import '../Widgets/count_down_time.dart';
-import '../Widgets/pdf.dart';
 import 'innerScreens/contacts_screen.dart';
 import 'innerScreens/partners_screen.dart';
 
@@ -66,16 +68,22 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           centerTitle: true,
           leading: Row(
-            children: const [
-              SizedBox(
-                width: 2,
+            children: [
+              const SizedBox(
+                width: 7,
               ),
-              Expanded(
-                child: CircleAvatar(
-                    radius: 17,
-                    backgroundImage: AssetImage('assets/images/canada.png')),
+              CircleAvatar(
+                radius: 17,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.asset(
+                      'assets/images/canada.png',
+                      fit: BoxFit.fill,
+                      height: 37,
+                      width: 37,
+                    )),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
             ],
@@ -112,10 +120,8 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: isFabVisible
             ? FloatingActionButton.extended(
                 onPressed: () async {
-                  Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return const Pdf();
-                  }));
+                  // open pdf
+                  Navigator.of(context).pushNamed(PdfUcc.routeName);
                 },
                 label: const Text('Media'),
                 icon: const Icon(Icons.picture_as_pdf),
@@ -275,6 +281,31 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+                GestureDetector(
+                  onTap: () {
+                    //Navigator.of(context).pushNamed(TourDetailsScreen.routName);
+                    Navigator.of(context).pushNamed(ChatMainPage.routeName);
+                  },
+                  child: Container(
+                    height: 25,
+                    width: MediaQuery.of(context).size.width,
+                    margin:
+                        const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.red.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        'Chat with Us',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18),
+                      ),
+                    ),
+                  ),
+                ),
                 Container(
                   decoration: BoxDecoration(
                     color: cardColor,
@@ -341,8 +372,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void fluttertoast() {
     Fluttertoast.showToast(
-        msg:
-            'Welcome ${FirebaseAuth.instance.currentUser!.email} to the 2023 Conference',
+        msg: FirebaseAuth.instance.currentUser != null
+            ? 'Welcome ${FirebaseAuth.instance.currentUser!.email} to the 2023 Conference'
+            : 'Welcome to the 2023 Conference',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 2,
@@ -425,6 +457,7 @@ class HotelContainerWidget extends StatelessWidget {
               GestureDetector(
                 // url launcher
                 onTap: () async {
+                  EasyLoading.show(status: 'Loading...');
                   const url =
                       'https://www.marriott.com/event-reservations/reservation-link.mi?id=1646317918687&key=GRP&app=resvlink';
                   if (await canLaunchUrl(Uri.parse(url))) {
@@ -432,6 +465,7 @@ class HotelContainerWidget extends StatelessWidget {
                   } else {
                     throw 'Could not launch $url';
                   }
+                  EasyLoading.dismiss();
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * 0.06,

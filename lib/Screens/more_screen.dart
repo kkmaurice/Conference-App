@@ -7,7 +7,10 @@ import 'package:conference/Services/auth_services.dart';
 import 'package:conference/helpers/style.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'innerScreens/tour_guide_registration.dart';
 
 class MoreScreen extends StatelessWidget {
   const MoreScreen({super.key});
@@ -105,7 +108,9 @@ class MoreScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${FirebaseAuth.instance.currentUser!.email}',
+                                FirebaseAuth.instance.currentUser != null
+                                    ? '${FirebaseAuth.instance.currentUser!.email}'
+                                    : 'Please, signUp',
                                 style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
@@ -115,7 +120,9 @@ class MoreScreen extends StatelessWidget {
                                 height: 10,
                               ),
                               Text(
-                                '${FirebaseAuth.instance.currentUser!.displayName}',
+                                FirebaseAuth.instance.currentUser != null
+                                    ? '${FirebaseAuth.instance.currentUser!.displayName}'
+                                    : 'No User',
                                 style: const TextStyle(
                                     fontSize: 16,
                                     color: Colors.white,
@@ -173,6 +180,10 @@ class MoreScreen extends StatelessWidget {
                     child: ListView(children: [
                       GestureDetector(
                         onTap: () async {
+                          await EasyLoading.show(
+                            status: 'loading...',
+                            maskType: EasyLoadingMaskType.black,
+                          );
                           const url =
                               'https://www.eventbrite.com/e/uganda-canada-convention-ottawa-2023-edition-tickets-452430771617';
                           if (await canLaunchUrl(Uri.parse(url))) {
@@ -180,6 +191,7 @@ class MoreScreen extends StatelessWidget {
                           } else {
                             throw 'Could not launch $url';
                           }
+                          await EasyLoading.dismiss();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -223,6 +235,10 @@ class MoreScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          await EasyLoading.show(
+                            status: 'loading...',
+                            maskType: EasyLoadingMaskType.black,
+                          );
                           // url launcher
                           const url = 'https://www.youtube.com/@ottawatourism';
                           if (await canLaunchUrl(Uri.parse(url))) {
@@ -230,6 +246,7 @@ class MoreScreen extends StatelessWidget {
                           } else {
                             throw 'Could not launch $url';
                           }
+                          await EasyLoading.dismiss();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -366,13 +383,13 @@ class MoreScreen extends StatelessWidget {
                       GestureDetector(
                         onTap: () async {
                           // url launcher
-                          const url =
-                              'https://www.ugandacanadaconvention.com/index.php/news-updates/';
-                          if (await canLaunchUrl(Uri.parse(url))) {
-                            await launchUrl(Uri.parse(url));
-                          } else {
-                            throw 'Could not launch $url';
-                          }
+                          await EasyLoading.show(
+                            status: 'loading...',
+                            maskType: EasyLoadingMaskType.black,
+                          );
+                          Navigator.of(context)
+                              .pushNamed(TourGuideRegistration.routeName);
+                          await EasyLoading.dismiss();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -398,7 +415,7 @@ class MoreScreen extends StatelessWidget {
                                 ),
                                 Expanded(
                                   child: Text(
-                                    'News & Updates',
+                                    'Tour Guide (Register)',
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: Colors.white,
@@ -467,6 +484,10 @@ class MoreScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          await EasyLoading.show(
+                            status: 'loading...',
+                            maskType: EasyLoadingMaskType.black,
+                          );
                           const url =
                               'https://www.eventbrite.com/support/articles/en_US/Troubleshooting/eventbrite-terms-of-service?lg=en_US';
                           if (await canLaunchUrl(Uri.parse(url))) {
@@ -474,6 +495,7 @@ class MoreScreen extends StatelessWidget {
                           } else {
                             throw 'Could not launch $url';
                           }
+                          await EasyLoading.dismiss();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -517,6 +539,10 @@ class MoreScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () async {
+                          await EasyLoading.show(
+                            status: 'loading...',
+                            maskType: EasyLoadingMaskType.black,
+                          );
                           const url =
                               'https://www.eventbrite.com/support/articles/en_US/Troubleshooting/eventbrite-trademark-copyright-policy?lg=en_US';
                           if (await canLaunchUrl(Uri.parse(url))) {
@@ -524,6 +550,7 @@ class MoreScreen extends StatelessWidget {
                           } else {
                             throw 'Could not launch $url';
                           }
+                          await EasyLoading.dismiss();
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),

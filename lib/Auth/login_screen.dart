@@ -3,10 +3,8 @@
 import 'package:conference/Screens/btm_bar.dart';
 import 'package:conference/Services/auth_services.dart';
 import 'package:conference/helpers/style.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-import '../Screens/home_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -144,64 +142,81 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 10,
                   ),
-                   Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        AuthServices().passwordReset(context, _emailTextController.text);
-                      }, 
-                      child: const Text('Forgot Password?',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 18,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.w400)),)
-                    
-                  ),
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          AuthServices().passwordReset(
+                              context, _emailTextController.text);
+                        },
+                        child: const Text('Forgot Password?',
+                            style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontStyle: FontStyle.italic,
+                                fontWeight: FontWeight.w400)),
+                      )),
 
                   const SizedBox(
                     height: 30,
                   ),
-                  _isLoading ? const Center(child: CircularProgressIndicator(),) : InkWell(
-                    onTap: () async{
-                      if (_formKey.currentState!.validate()) {
-                        _formKey.currentState!.save();
-                        setState(() {
-                          _isLoading = true;
-                        });
-                        await AuthServices().signInUser(context, _emailTextController.text, _passTextController.text)
-                        .then((value) {
-                          setState(() {
-                            _emailTextController.clear();
-                            _passTextController.clear();
-                          });
-                          setState(() {
-                            _isLoading = false;
-                          });
-                        }).then((value) {
-                          Navigator.pushReplacementNamed(context, BottomBarScreen.routeName);
-                        });
-                        setState(() {
-                          _isLoading = false;
-                        });
-                      
-                      }
-                    },
-                    child: Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.94,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: cardColor,
-                        borderRadius: BorderRadius.circular(25),
-                      ),
-                      child: const Text('Sign In',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ),
+                  _isLoading
+                      ? Center(
+                          child: SpinKitFadingCircle(
+                            itemBuilder: (BuildContext context, int index) {
+                              return DecoratedBox(
+                                decoration: BoxDecoration(
+                                  color:
+                                      index.isEven ? Colors.red : Colors.green,
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              setState(() {
+                                _isLoading = true;
+                              });
+                              await AuthServices()
+                                  .signInUser(
+                                      context,
+                                      _emailTextController.text,
+                                      _passTextController.text)
+                                  .then((value) {
+                                setState(() {
+                                  _emailTextController.clear();
+                                  _passTextController.clear();
+                                });
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              }).then((value) {
+                                Navigator.pushReplacementNamed(
+                                    context, BottomBarScreen.routeName);
+                              });
+                              // setState(() {
+                              //   _isLoading = false;
+                              // });
+                            }
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.07,
+                            width: MediaQuery.of(context).size.width * 0.94,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: cardColor,
+                              borderRadius: BorderRadius.circular(25),
+                            ),
+                            child: const Text('Sign In',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold)),
+                          ),
+                        ),
                   const SizedBox(
                     height: 30,
                   ),

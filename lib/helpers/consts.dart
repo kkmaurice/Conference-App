@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/speakers.dart';
@@ -32,19 +34,25 @@ List<String> hotel = [
   'assets/hotel/pexels-pixabay-261169.jpg',
   'assets/hotel/pexels-pixabay-279746.jpg',
   'assets/hotel/pexels-vecislavas-popa-1743231.jpg'
-
-  // 'assets/hotel/80720749.jpg',
-  // 'assets/hotel/841709572.jpg',
-  // 'assets/hotel/935520616.jpg',
-  // 'assets/hotel/1506436275.jpeg',
-  // 'assets/hotel/1680826078.jpg',
-  // 'assets/hotel/1728161158.jpg',
-  // 'assets/hotel/3011733377.jpg',
-  // 'assets/hotel/3418811937.jpg',
-  // 'assets/hotel/3681048439.jpg',
-  // 'assets/hotel/Dalys-Express_resize.jpg',
 ];
 SharedPreferences? sharedPreferences;
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.dark
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.green
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withOpacity(0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
+  //..customAnimation = CustomAnimation();
+}
 
 List<Speakers> speakers = [
   Speakers(
